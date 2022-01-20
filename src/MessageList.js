@@ -17,6 +17,7 @@ export default function MessageList() {
     // Need to handle input state for new message
     const [message, setMessage] = useState("")
 
+    // The User can be set in each window and displayed in the chat bubble
     const [user, setUser] = useState("Anonymous")
 
     // sendMessage should send the message to socket store instead of setting state directly
@@ -30,6 +31,19 @@ export default function MessageList() {
         setMessage("");
         console.log(messageList)
     };
+    // Ex sendMessage with simple state before sockets were set up
+    // const sendMessage = () => {
+    //     // Add message to array of objects
+    //     setMessageList( (messageList) => [...messageList,
+    //         {
+    //            //userId is set elsewhere and inherited
+    //             user: user,
+    //             content: message
+    //         }
+    //     ]);
+    //     // Clear the input after the message is sent 
+    //     setMessage("");
+    // }
 
     // Connect to sockets when component renders
     useEffect(() => {
@@ -50,25 +64,12 @@ export default function MessageList() {
         return () => {
           socketRef.current.disconnect();
         };
-      }, []);
-
-    // Ex sendMessage with simple state before sockets are set up
-    // const sendMessage = () => {
-    //     // Add message to array of objects
-    //     setMessageList( (messageList) => [...messageList,
-    //         {
-    //            //userId is set elsewhere and inherited
-    //             user: user,
-    //             content: message
-    //         }
-    //     ]);
-    //     // Clear the input after the message is sent 
-    //     setMessage("");
-    // }
+    }, []);
 
     const handleUserChange = (e) => {
         setUser(e.target.value)
     }
+
     const handleMsgChange = (e) => {
         setMessage(e.target.value)
     }
@@ -110,12 +111,11 @@ export default function MessageList() {
             value={user}
             onChange={handleUserChange}
         />
-        
         </>
-
     )
 
 
+    // Written before adding styles:
     // return (
     //     <>
     //     {console.log(messageList)}
@@ -123,7 +123,6 @@ export default function MessageList() {
     //     <input name="user" value={user} onChange={handleUserChange} />
     //     {/* <ol >
     //         {messageList.map( (msg, i) => (
-                
     //             <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
     //         ))}
     //     </ol> */}
