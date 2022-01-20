@@ -37,7 +37,7 @@ export default function MessageList() {
         socketRef.current.on(NEW_CHAT_EVENT, (message) => {
           const newMessage = {
             ...message,
-            isOwner: message.senderId === socketRef.current.id,
+            isOwner: message.userId === socketRef.current.id,
           };
           // update message store with new message
           setMessageList( (messageList) => [...messageList, newMessage]);
@@ -72,10 +72,12 @@ export default function MessageList() {
 
     return (
         <>
+        {console.log(messageList)}
         <label htmlFor="user" >Username:</label>
         <input name="user" value={user} onChange={handleUserChange} />
         <ol >
             {messageList.map( (msg, i) => (
+                
                 <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
             ))}
         </ol>
