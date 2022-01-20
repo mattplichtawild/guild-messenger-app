@@ -22,16 +22,20 @@ export default function MessageList() {
 
     // sendMessage should send the message to socket store instead of setting state directly
     const sendMessage = () => {
-        socketRef.current.emit(NEW_CHAT_EVENT, {
-            userId: socketRef.current.id,
-            user: user,
-            content: message,
-        });
+        // Only send a message if there is content in it
+        if (message != "") {
+            // Use socket emit to send data to the store
+            socketRef.current.emit(NEW_CHAT_EVENT, {
+                userId: socketRef.current.id,
+                user: user,
+                content: message,
+            });
+        };
         // Clear the input after the message is sent
         setMessage("");
-        console.log(messageList)
     };
-    // Ex sendMessage with simple state before sockets were set up
+
+    // Ex sendMessage with simple state before socket.io was set up
     // const sendMessage = () => {
     //     // Add message to array of objects
     //     setMessageList( (messageList) => [...messageList,
