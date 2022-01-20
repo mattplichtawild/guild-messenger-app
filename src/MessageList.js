@@ -18,7 +18,6 @@ export default function MessageList() {
     const [user, setUser] = useState("Anonymous")
 
     // sendMessage should send the message to socket store instead of setting state directly
-    // MessageList component connects to the store 
     const sendMessage = () => {
         socketRef.current.emit(NEW_CHAT_EVENT, {
             userId: socketRef.current.id,
@@ -29,9 +28,9 @@ export default function MessageList() {
         setMessage("");
     };
 
-    // To connect to sockets 
+    // Connect to sockets when component renders
     useEffect(() => {
-        // create a new client with our server url
+        // create a new client with server url 
         socketRef.current = socketIOClient(SOCKET_SERVER_URL);
     
         // listen for new messages in message store
