@@ -2,7 +2,7 @@ const app = require('express')();
 const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
-    // Add port 3000 to CORS since React app will be running on that port
+    // Add port 3000 to CORS since React app will need to talk to it
     cors: {
         origin: 'http://localhost:3000',
         // methods: ['GET', 'POST'],
@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
         io.in(ROOM).emit(NEW_CHAT_EVENT, data);
     });
 
-    // Leave the room if the user closes the socket
+    // Leave the room if the user closes the socket (closes the page)
     socket.on('disconnect', () => {
         console.log('Disconnected')
         socket.leave(ROOM);
