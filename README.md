@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Quick Chat App using React and Socket.io
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with Create React App and Socket.io.
 
-## Available Scripts
+## Running the demo
 
-In the project directory, you can run:
+In the project directory, run:
+
+### `npm install` 
+
+then
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The `start` script will run `node server.js`, which will start an instance of socket.io and begin listening on port 3001.
+The script will then run `react-scripts start`, which will start the React app and automatically open your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Once your browser is open, duplicate the tab so you have multiple tabs open at [http://localhost:3000](http://localhost:3000).
+This will simulate separate messaging apps. You can enter your username in the field in each tab. You can have as many tabs open as you want to simulate a group chat with many users.
 
-### `npm test`
+Fill in the usernames in each chat tab and start having conversations with yourself!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Design and Approach
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+When reading the requirements and that the project was to build a chat app, my first thought was to integrate Socket.io. I had never actually used this technology before, but have seen it mentioned and ran across it during my own exploration of app features and ideas.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I spent a good amount of time looking over the docs and quick start quides for Socket.io while also exploring other possible avenues to build this app.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I briefly envisioned an app that allowed the creation of multiple resources and their various respective routes (ie: `/users/`, `/messages/`, `/chat_rooms/`, etc), but felt that a full fledged RESTful API would be overboard for the scope of this project.
 
-### `npm run eject`
+I settled on only needing to create one object type that would hold all my relevant info instead of multiple models that would need to interact with and reference each other (see NOTES.md). Because I would only be operating with one object type, I decided against using Redux to manage the chat's state. Databases such as PostgreSQL or MongoDB were also decided against for storing messages for the same reason. Additionally, integrating a React app with either of these seemed at first glance to be more time consuming than what this project allowed.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+While brainstorming and researching these avenues, I made a 'hello-world' app or two using some quick start guides to familiarize myself with using Socket.io. It became clear that I should integrate that with a React app.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Building the components
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+I started the components build with `MessageList`, since that was going to be the main stateful component. I prefer using functional components with hooks. The message list was an empty array created with the `useState()` hook, and I simply mapped over that to spit out an order list of messages. An input was also added to allow a username to be attached.
 
-## Learn More
+After this functionality was working, I integrated my code from my Socket.io starter. Instead of `sendMessage` simply appending to the end of the message array, it now dispatched the message to the 'store' being kept by the Socket instance. The `useEffect` hook was implemented for the component to fetch that store.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+After I built this component, I began abstracting into further components. Mapping over messages would no longer return just `<li>` elements; `<MessageBubble>` was created to handle this data. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+I planned to abstract to further layers and components in both directions, but found myself getting lost in the weeds of building with MaterialUI components. Ideally, I would have had the `user` input and data handled in a more top level component above the message list, and perhaps edited through an action other than simply an `<input>` element, then passed that data in as props and used in the message object that way.
 
-### Code Splitting
+I also wanted to use the socket ID to differentiate between tabs and set that as the user ID. With this implementation, the IDs could be checked with `message.isOwner`. This check would enforce certain styles on the messages, each tab in the browser would know which messages were sent by them and display their own messages on the right while the messages from all other users could be displayed on the left side of the window, with different colored bubbles indicating respective users. Again, I found myself pouring over style docs and CSS guides. My strength is admittedly more with back-end, styling and working with CSS was proving to take much longer than writing the functionality.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Other considerations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Even with Socket.io handling the message store, this app would ideally integrate with a database so messages can be persisted through refreshes and stops/restarts. This integration would also need a real API to handle fetching these as well as setting the user/chat rooms/message threads. A message would likely have a foreign key for the user, and a chat room would have a key for the chat_id and message_id. An application such as this could also handle replies to specific messages instead of just one long message chain.
 
-### Making a Progressive Web App
+I have recently started learning TypeScript, but opted not to use it for this project. As I was writing components, however, I realized that having a type for the props being passed to `MessageBubble` would have been beneficial, such as:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+type user = {
+    id: number,
+    name: string
+}
 
-### Advanced Configuration
+interface MessageProps {
+    data: {
+        id: number,
+        user: user,
+        content: string
+    }
+} 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+function MessageBubble(props: MessageProps) {
+    ...
+}
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Also, TESTING. I did not write any tests for this application. I have used test suites to write tests for other APIs I am building with Python, but I have not used the testing tools included with Create React App. I was looking into the documentation to write tests using Jest and other tools with CRA, but was doing so at the end of the build. I felt like time needed to learn how to properly use these tools would cut into the project deadline, and hoped that the code provided was sufficient for the scope of the assessment.
 
-### `npm run build` fails to minify
+I feel confident in the application I wrote considering much of my time was spent learning how to implement a technology I hadn't used before, and the ability to have a group chat with multiple users exceeeds the expectations of the project.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Bonus
+
+For extra credit, see the technical assessment I completed for the data engineering team; another project I completed without previous knowledge of the tools I was using.
