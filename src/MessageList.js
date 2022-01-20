@@ -28,6 +28,7 @@ export default function MessageList() {
         });
         // Clear the input after the message is sent
         setMessage("");
+        console.log(messageList)
     };
 
     // Connect to sockets when component renders
@@ -83,7 +84,7 @@ export default function MessageList() {
         
         <Stack spacing={2} >
             {messageList.map( (msg, i) => (    
-                <MessageBubble message={msg} />
+                <MessageBubble key={i} message={msg} />
                 // <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
             ))}
         </Stack>
