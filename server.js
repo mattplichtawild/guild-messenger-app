@@ -5,16 +5,10 @@ const io = require('socket.io')(http, {
     // Add port 3000 to CORS since React app will need to talk to it
     cors: {
         origin: 'http://localhost:3000',
-        // methods: ['GET', 'POST'],
-        // credentials: true,
       },
 });
 
-
 app.use(cors());
-// app.get('/', (req, res) => {
-//     res.send('<h1>Hey Socket.io</h1>');
-// });
 
 const NEW_CHAT_EVENT = 'NEW_CHAT_EVENT';
 const ROOM = 'Guild Chat'
@@ -22,7 +16,6 @@ const ROOM = 'Guild Chat'
 io.on('connection', (socket) => {
     
     // Join the room when connected
-    // const { ROOM } = socket.handshake.query;
     socket.join(ROOM);
     console.log(`Socket ${socket.id} connected to ${ROOM}`);
 
@@ -38,6 +31,7 @@ io.on('connection', (socket) => {
     });
 });
 
+// Start listening on the port
 http.listen(3001, () => {
   console.log('listening on *:3001');
 });
