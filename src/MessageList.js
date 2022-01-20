@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Input, List, ListItem, Stack, TextField } from "@mui/material";
+import { Button, Container, List, ListItem, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 import MessageBubble from "./MessageBubble";
@@ -78,6 +78,7 @@ export default function MessageList() {
         setMessage(e.target.value)
     }
 
+    // Input should send message if user hits enter (keyCode13 is 'Enter' key)
     const keyPress = (e) => {
         if(e.keyCode == 13){
            
@@ -130,9 +131,7 @@ export default function MessageList() {
     //             <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
     //         ))}
     //     </ol> */}
-    //     {messageList.map( (msg, i) => {
-    //         <MessageBubble message={msg} />
-    //     })}
+    // 
     //     <label htmlFor="message" >Message:</label>
     //     <input 
     //         name="message"
