@@ -20,6 +20,16 @@ export default function MessageList() {
     // The User can be set in each window and displayed in the chat bubble
     const [user, setUser] = useState("Anonymous")
 
+    // These methods and their respective states could be abstracted later with something like
+    // setState(e.target.name: e.target.value)
+    const handleUserChange = (e) => {
+        setUser(e.target.value)
+    }
+
+    const handleMsgChange = (e) => {
+        setMessage(e.target.value)
+    }
+
     // sendMessage should send the message to socket store instead of setting state directly
     const sendMessage = () => {
         // Only send a message if there is content in it
@@ -40,7 +50,6 @@ export default function MessageList() {
     //     // Add message to array of objects
     //     setMessageList( (messageList) => [...messageList,
     //         {
-    //            //userId is set elsewhere and inherited
     //             user: user,
     //             content: message
     //         }
@@ -69,14 +78,6 @@ export default function MessageList() {
           socketRef.current.disconnect();
         };
     }, []);
-
-    const handleUserChange = (e) => {
-        setUser(e.target.value)
-    }
-
-    const handleMsgChange = (e) => {
-        setMessage(e.target.value)
-    }
 
     // Input should send message if user hits enter (keyCode13 is 'Enter' key)
     const keyPress = (e) => {
