@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Input, Stack, TextField } from "@mui/material";
+import { Button, Container, Grid, Input, List, ListItem, Stack, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 import MessageBubble from "./MessageBubble";
@@ -81,13 +81,13 @@ export default function MessageList() {
      }
     return (
         <>
-        
-        <Stack spacing={2} >
-            {messageList.map( (msg, i) => (    
-                <MessageBubble key={i} message={msg} />
-                // <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
+        <List >
+            {messageList.map( (msg, i) => (  
+                <ListItem key={i}>
+                    <MessageBubble message={msg} />
+                </ListItem>      
             ))}
-        </Stack>
+        </List>
         <Container >
                 <TextField 
                     fullWidth
