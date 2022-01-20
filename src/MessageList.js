@@ -78,11 +78,15 @@ export default function MessageList() {
            
            sendMessage();
         }
-     }
+    }
+
     return (
         <>
         <List >
             {messageList.map( (msg, i) => (  
+                // Can check msg.isOwner property here to align items based on who sent it
+                // If the userId matches the socketRefId, then align the bubble to the right
+                // If not, then align the bubble on the left
                 <ListItem key={i}>
                     <MessageBubble message={msg} />
                 </ListItem>      
