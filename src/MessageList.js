@@ -101,7 +101,7 @@ export default function MessageList() {
         <Container >
                 <TextField 
                     fullWidth
-                    label="Enter Message:"
+                    label="Message ('Enter' to send):"
                     name="message"
                     value={message}
                     onChange={handleMsgChange}
