@@ -1,17 +1,20 @@
 import React from 'react';
-import ChatMsg from '@mui-treasury/components/chatMsg/ChatMsg';
+import { Card, CardContent, Typography } from '@mui/material';
 
-export default function MessageBubble(message) {
+
+
+export default function MessageBubble(props) {
 
     return (
-        <ChatMsg
-            side={}
-            avatar={''}
-            messages={[
-                'Hi Jenny, How r u today?',
-                'Did you train yesterday',
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.',
-            ]}
-        />
+        <Card>
+            <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {props.message.user}
+                </Typography>
+                <Typography variant="h5" component="div">
+                    {props.message.content}
+                </Typography>
+            </CardContent>
+        </Card>
     )
 }

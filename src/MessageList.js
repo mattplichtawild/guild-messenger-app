@@ -1,5 +1,7 @@
+import { Button, Container, Grid, Input, Stack, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
+import MessageBubble from "./MessageBubble";
 
 // Socket.io is listening on port 3001, so need to set server url to 3001
 const SOCKET_SERVER_URL = "http://localhost:3001";
@@ -70,27 +72,69 @@ export default function MessageList() {
         setMessage(e.target.value)
     }
 
+    const keyPress = (e) => {
+        if(e.keyCode == 13){
+           
+           sendMessage();
+        }
+     }
     return (
         <>
-        {console.log(messageList)}
-        <label htmlFor="user" >Username:</label>
-        <input name="user" value={user} onChange={handleUserChange} />
-        <ol >
-            {messageList.map( (msg, i) => (
-                
-                <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
+        
+        <Stack spacing={2} >
+            {messageList.map( (msg, i) => (    
+                <MessageBubble message={msg} />
+                // <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
             ))}
-        </ol>
-        <label htmlFor="message" >Message:</label>
-        <input 
-            name="message"
-            value={message}
-            onChange={handleMsgChange}
+        </Stack>
+        <Container >
+                <TextField 
+                    fullWidth
+                    label="Enter Message:"
+                    name="message"
+                    value={message}
+                    onChange={handleMsgChange}
+                    onKeyDown={keyPress}
+                />
+                <Button variant='outlined' onClick={sendMessage} >Send</Button>
+        </Container>
+       
+        <TextField 
+            label="Your Username"
+            name="user"
+            value={user}
+            onChange={handleUserChange}
         />
-        <button onClick={sendMessage}>
-            Send
-        </button>
+        
         </>
+
     )
+
+
+    // return (
+    //     <>
+    //     {console.log(messageList)}
+    //     <label htmlFor="user" >Username:</label>
+    //     <input name="user" value={user} onChange={handleUserChange} />
+    //     {/* <ol >
+    //         {messageList.map( (msg, i) => (
+                
+    //             <li key={i}><h4>From: {msg.user}</h4><p>{msg.content}</p></li>
+    //         ))}
+    //     </ol> */}
+    //     {messageList.map( (msg, i) => {
+    //         <MessageBubble message={msg} />
+    //     })}
+    //     <label htmlFor="message" >Message:</label>
+    //     <input 
+    //         name="message"
+    //         value={message}
+    //         onChange={handleMsgChange}
+    //     />
+    //     <button onClick={sendMessage}>
+    //         Send
+    //     </button>
+    //     </>
+    // )
 
 }
