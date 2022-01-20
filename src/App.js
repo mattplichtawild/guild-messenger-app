@@ -5,6 +5,7 @@ import MessageList from './MessageList';
 function App() {
   return (
     <div className="App">
+      <h1>Guild Chat</h1>
       <header className="App-header">
        <MessageList />
       </header>
