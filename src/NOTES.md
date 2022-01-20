@@ -1,16 +1,19 @@
 const MESSAGE_STORE = [
     {
         userId: 1,
+        user: "Obi-Wan",
         messageId: 1,
         content: "Hello, there."
     },
     {
         userId: 2,
+        user: "Grievous",
         messageId: 2,
         content: "General Kenobi"
     },
     {
         userId: 1,
+        user: "Princess Leia",
         messageId: 3,
         content: "You're shorter than I expected."
     }
