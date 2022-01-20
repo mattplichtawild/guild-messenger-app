@@ -1,7 +1,12 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-
+// message = {
+//     content: String,
+//     isOwner: Boolean,
+//     user: String,
+//     userId: String
+// }
 
 export default function MessageBubble(props) {
 
