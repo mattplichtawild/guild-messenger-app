@@ -77,7 +77,7 @@ Also, TESTING. I did not write any tests for this application. I have used test 
 I feel confident in the application I wrote considering much of my time was spent learning how to implement a technology I hadn't used before, and the ability to have a group chat with multiple users exceeeds the expectations of the project.
 
 
-## ADDITIONAL THOUGHTS AFTER SUBMISSION
+# ADDITIONAL THOUGHTS AFTER SUBMISSION
 After thinking about my approach today while shower coding, I came up with some other avenues I wish I had explored.
 
 I used ExpressJS to run a basic server, though I could have utilized that much more for the creation of resources such as `users`, `chats`, and `messages`.
@@ -108,6 +108,13 @@ This approach would need a schema to be defined, and could even work on top of t
 The 'quickly hack it together' technique worked for me considering the restraints, but I would definitely want to define a schema and build these request handlers for a more robust application.
 
 I am open to your thoughts on these design approaches. 
+
+
+## Accessiblity 
+
+Thinking on the elements I used to build the components with MaterialUI, I realized that the project is probably not very friendly to accessibility concerns. Because the A&E team is likely working more closely with the end users (students), this strikes me as an area that needs a lot of consideration. Though the scope of the project may not translate perfectly over to scope of working with admissions, I feel that more thought will need to go into making the products I build more accessible to the users. 
+
+This will aid in my own applications and I plan to find some resources on a11y.
 
 ## Bonus
 
