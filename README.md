@@ -53,6 +53,7 @@ Even with Socket.io handling the message store, this app would ideally integrate
 
 I have recently started learning TypeScript, but opted not to use it for this project. As I was writing components, however, I realized that having a type for the props being passed to `MessageBubble` would have been beneficial, such as:
 
+```
 type user = {
     id: number,
     name: string
@@ -69,12 +70,44 @@ interface MessageProps {
 function MessageBubble(props: MessageProps) {
     ...
 }
-
+```
 
 Also, TESTING. I did not write any tests for this application. I have used test suites to write tests for other APIs I am building with Python, but I have not used the testing tools included with Create React App. I was looking into the documentation to write tests using Jest and other tools with CRA, but was doing so at the end of the build. I felt like time needed to learn how to properly use these tools would cut into the project deadline, and hoped that the code provided was sufficient for the scope of the assessment.
 
 I feel confident in the application I wrote considering much of my time was spent learning how to implement a technology I hadn't used before, and the ability to have a group chat with multiple users exceeeds the expectations of the project.
 
+
+## ADDITIONAL THOUGHTS AFTER SUBMISSION
+After thinking about my approach today while shower coding, I came up with some other avenues I wish I had explored.
+
+I used ExpressJS to run a basic server, though I could have utilized that much more for the creation of resources such as `users`, `chats`, and `messages`.
+
+A basic API could be created by defining several routes for `GET` and `POST` requests. The functions handling these requests could retrieve and add data to a simple `data.json` file, which could store the objects and even delete selected ones from the file. 
+
+In server.js, requests could be handled like:
+
+```
+app.get('/chats/:id', (req, resp) => {
+    // retrieve all messages in the chat room with 'params.id'
+})
+
+app.post('/messages', (req, resp) => {
+    // Add message from 'req.data'
+})
+
+app.get('messages/:from-:to', (req, resp) => {
+    // Get messages sent from one user to another
+})
+etc...
+```
+
+The callback functions would be written to either parse the json data and add/retrieve it in `data.json`, or use appropriate methods to handle to fetch the data from a linked db, depending on middleware and other options used.
+
+This approach would need a schema to be defined, and could even work on top of the `message_store` being utilized by Socket.io.
+
+The 'quickly hack it together' technique worked for me considering the restraints, but I would definitely want to define a schema and build these request handlers for a more robust application.
+
+I am open to your thoughts on these design approaches. 
 
 ## Bonus
 
